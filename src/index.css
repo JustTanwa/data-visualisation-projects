@@ -1,3 +1,11 @@
+.graph-container {
+    background-color: greenyellow;
+    display: grid;
+    place-items: center;
+    height: 600px;
+}
+
 .bar:hover {
     fill: rgb(173,255,47);
 }
+
