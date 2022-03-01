@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function Barchart() {
     const w = 800;
     const h = 400;
     const barWidth = w/275;
+    const svgRef = useRef();
 
     const [data, setData] = useState([])
 
@@ -12,6 +13,7 @@ export default function Barchart() {
         async function fetchData() {
             const response = await fetch("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json");
             const json = await response.json();
+            // formating data into array of [year, gdp, quarter, full date]
             let tempData = json.data.map((item) => {
                 let year = item[0].split("-")[0];
                 let month = item[0].split("-")[1];
@@ -40,14 +42,14 @@ export default function Barchart() {
     useEffect(() => {
         const drawGraph = () => {
             const xScale = window.d3.scaleTime()
-                                .domain([window.d3.min(data, (d) => new Date(d[0])), window.d3.max(data, (d) => new Date(d[0]))])
+                                .domain([window.d3.min(data, (d) => new Date(d[3])), window.d3.max(data, (d) => new Date(d[3]))])
                                 .range([0, w]);
             
             const yScale = window.d3.scaleLinear()
                                 .domain([0, window.d3.max(data, (d) => d[1])])
                                 .range([h, 0]);
             
-            const scale = window.d3.scaleLinear()
+            const gdpscale = window.d3.scaleLinear()
                                 .domain([0, window.d3.max(data, (d) => d[1])])
                                 .range([0, h]);
 
@@ -57,17 +59,15 @@ export default function Barchart() {
             const yAxis = window.d3.axisLeft()
                             .scale(yScale);
             // setting the w, and h of the svg
-            const graph = window.d3.select(".graph")
+            const graph = window.d3.select(svgRef.current)
                                 .attr("width", w + 100)
                                 .attr("height", h + 60);
             // plotting the axises
-            graph.append("g")
+            graph.select("#x-axis")
                  .call(xAxis)
-                 .attr("id", "x-axis")
                  .attr("transform", `translate(${60}, ${h})`);
-            graph.append("g")
+            graph.select("#y-axis")
                  .call(yAxis)
-                 .attr("id", "y-axis")
                  .attr("transform", `translate(${60}, 0)`);
             // plotting each rect data on the graph
             
@@ -75,16 +75,21 @@ export default function Barchart() {
                 .data(data)
                 .enter()
                 .append("rect")
-                .attr("x", (d, i) => i * barWidth + 60)
-                .attr("y", (d, i) => h - scale(d[1]))
+                .attr("x", (d, i) => xScale(new Date(d[3])))
+                .attr("y", (d, i) => h - gdpscale(d[1]))
                 .attr("width", barWidth)
-                .attr("height", (d) => scale(d[1]))
+                .attr("height", (d) => gdpscale(d[1]))
                 .attr("fill", "#006400")
                 .attr("class","bar")
                 .attr("data-gdp", (d) => d[1])
-                .attr("data-date", (d) => d[3]);
+                .attr("data-date", (d) => d[3])
+                .attr("transform", `translate(${60},0)`)
+                .on("click", (d) => {
+                    console.log("clicked")
+                })
             
             // adding lable to show the values
+            /*
             graph.selectAll("text")
                 .data(data)
                 .enter()
@@ -93,7 +98,7 @@ export default function Barchart() {
                 .attr("x", (d, i) => i * barWidth + 10)
                 .attr("y", (d, i) => h - (i * 5) - 5)
                 .attr("id", "tooltip")
-                .style("opacity", 0)
+                .style("opacity", 0) */
             
         }
         drawGraph();
@@ -105,7 +110,10 @@ export default function Barchart() {
         <section>
             <p id="title">United States GDP</p>
             <div className="graph-container">
-                <svg className="graph"></svg>
+                <svg className="graph" ref={svgRef}>
+                    <g id="x-axis"></g>
+                    <g id="y-axis"></g>
+                </svg>
             </div>
         </section>
       </main>
