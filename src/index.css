@@ -53,8 +53,13 @@ a {
     text-decoration: none;
 }
 
-header a:visited {
+header a:visited, footer a:visited {
     color: inherit;
+}
+
+footer div a:hover {
+    transition: font-size 0.5s;
+    font-size: 1.75em;
 }
 
 
@@ -68,6 +73,7 @@ footer {
 
 .graph-container {
     display: grid;
+    position: relative;
     place-items: center;
     height: 600px;
 }
@@ -81,6 +87,10 @@ footer {
     height: 3.5em;
     text-align: center;
     padding-top: 0.5em;
+    top: 50px;
+    left: 500px;
+    border: var(--brightOrage) 1px solid;
+    border-radius: 5px;
 }
 
 .bar:hover {

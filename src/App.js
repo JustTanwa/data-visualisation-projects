@@ -1,4 +1,5 @@
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer"
 import { Outlet, Link } from "react-router-dom";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
       </header>
       <Navigation />
       <Outlet /> 
-      <footer> Made by Tanwa Sripan</footer>
+      <Footer />
     </>
       
   )
