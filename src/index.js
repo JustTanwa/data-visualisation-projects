@@ -8,11 +8,13 @@ import Scatterplot from './routes/Scatterplot';
 import Heatmap from './routes/Heatmap';
 import Choroplethmap from './routes/Choroplethmap';
 import Treemap from './routes/Treemap';
+import Home from './routes/Home';
 
 ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} >
+        <Route index element={<Home/>} />
         <Route path="barchart" element={<Barchart/>} />
         <Route path="scatterplot" element={<Scatterplot/>} />
         <Route path="heatmap" element={<Heatmap/>} />

@@ -4,11 +4,23 @@ import { Link } from 'react-router-dom';
 export default function Navigation() {
     return (
         <nav>
-            <Link to="/barchart">Bar Chart</Link>
-            <Link to="/scatterplot">Scatterplot Graph</Link>
-            <Link to="/heatmap">Heat Map</Link>
-            <Link to="/choroplethmap">Choropleth Map</Link>
-            <Link to="/treemap">Treemap Diagram</Link>
+            <ul>
+                <li>
+                    <Link to="/barchart">Bar Chart</Link>
+                </li>
+                <li>
+                    <Link to="/scatterplot">Scatterplot Graph</Link>
+                </li>
+                <li>
+                    <Link to="/heatmap">Heat Map</Link>
+                </li>
+                <li>
+                    <Link to="/choroplethmap">Choropleth Map</Link>
+                </li>
+                <li>
+                    <Link to="/treemap">Treemap Diagram</Link>
+                </li>
+            </ul>
         </nav>
     )
 }

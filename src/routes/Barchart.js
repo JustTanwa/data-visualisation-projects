@@ -5,8 +5,20 @@ export default function Barchart() {
     const h = 400;
     const barWidth = w/275;
     const svgRef = useRef();
+    const [data, setData] = useState([]);
 
-    const [data, setData] = useState([])
+    const pageTitleStyle = {
+        textAlign: "center",
+        margin: 0,
+        fontSize: "2em",
+    }
+    const titleStyle = {
+        textAlign: "center",
+        textDecoration: "underline",
+        fontSize: "1.5em",
+        margin: "1em 0 0 0"
+    }
+    
 
     // fetching data
     useEffect(() => {
@@ -79,7 +91,7 @@ export default function Barchart() {
                 .attr("y", (d, i) => h - gdpscale(d[1]))
                 .attr("width", barWidth)
                 .attr("height", (d) => gdpscale(d[1]))
-                .attr("fill", "#006400")
+                .attr("fill", "#F7B733")
                 .attr("class","bar")
                 .attr("data-gdp", (d) => d[1])
                 .attr("data-date", (d) => d[3])
@@ -112,9 +124,9 @@ export default function Barchart() {
 
     return (
       <main style={{ padding: "1rem 0" }}>
-        <h2>Bar Chart</h2>
+        <h2 style={pageTitleStyle}>Bar Chart</h2>
         <section>
-            <p id="title">United States GDP</p>
+            <p id="title" style={titleStyle}>Gross Domestic Product of United States</p>
             <div className="graph-container">
                 <div id="tooltip"></div>
                 <svg className="graph" ref={svgRef}>
