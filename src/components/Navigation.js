@@ -1,24 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default function Navigation() {
     return (
         <nav>
             <ul>
                 <li>
-                    <Link to="/barchart">Bar Chart</Link>
+                    <NavLink to="/barchart">Bar Chart</NavLink>
                 </li>
                 <li>
-                    <Link to="/scatterplot">Scatterplot Graph</Link>
+                    <NavLink to="/scatterplot">Scatterplot Graph</NavLink>
                 </li>
                 <li>
-                    <Link to="/heatmap">Heat Map</Link>
+                    <NavLink to="/heatmap">Heat Map</NavLink>
                 </li>
                 <li>
-                    <Link to="/choroplethmap">Choropleth Map</Link>
+                    <NavLink to="/choroplethmap">Choropleth Map</NavLink>
                 </li>
                 <li>
-                    <Link to="/treemap">Treemap Diagram</Link>
+                    <NavLink to="/treemap">Treemap Diagram</NavLink>
                 </li>
             </ul>
         </nav>

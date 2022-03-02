@@ -31,13 +31,20 @@ nav ul {
 
 nav ul li {
     margin: 1em 0;
+    height: 2em;
 }
 nav ul li a {
     color: rgba(0, 0, 0, 0.5);
     font-size: 1.5em;
+    transition: font-size 0.5s;
 }
 
 nav ul li a:hover {
+    color: black;
+    font-size: 2em;
+}
+
+nav .active {
     color: black;
     font-size: 2em;
 }
