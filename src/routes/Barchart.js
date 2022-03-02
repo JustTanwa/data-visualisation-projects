@@ -78,9 +78,15 @@ export default function Barchart() {
             graph.select("#x-axis")
                  .call(xAxis)
                  .attr("transform", `translate(${60}, ${h})`);
+
             graph.select("#y-axis")
                  .call(yAxis)
                  .attr("transform", `translate(${60}, 0)`);
+
+            graph.select("#y-axis-label")
+                 .text("Gross Domestic Product (B)")
+                 .attr("transform", "translate(80, 200) rotate(-90)");
+
             // plotting each rect data on the graph
             
             graph.selectAll("rect")
@@ -95,6 +101,7 @@ export default function Barchart() {
                 .attr("class","bar")
                 .attr("data-gdp", (d) => d[1])
                 .attr("data-date", (d) => d[3])
+                .attr("index", (d, i) => i)
                 .attr("transform", `translate(${60},0)`)
                 .on("mouseover", onMouseOver)
                 .on("mouseout", onMouseOut)
@@ -103,12 +110,13 @@ export default function Barchart() {
                 const date = e.target.getAttribute("data-date");
                 const text = data.filter( item => item[3] === date);
                 window.d3.select("#tooltip")
-                    .text(`${text[0][0]} ${text[0][2]}
-                    $${parseFloat(text[0][1]).toLocaleString("en-US")} Billion`)
+                    .html(`${text[0][0]} ${text[0][2]} <br> 
+                    $${parseFloat(text[0][1]).toLocaleString("en-US")} Billion` )
                     .attr("data-date", date)
                     .transition()
                     .duration(200)
                     .style("opacity", "1")
+                    .style("line-height", "1.5em");
             }
 
             function onMouseOut() {
@@ -132,6 +140,7 @@ export default function Barchart() {
                 <svg className="graph" ref={svgRef}>
                     <g id="x-axis"></g>
                     <g id="y-axis"></g>
+                    <text id="y-axis-label"></text>
                 </svg>
             </div>
         </section>
