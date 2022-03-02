@@ -84,21 +84,27 @@ export default function Barchart() {
                 .attr("data-gdp", (d) => d[1])
                 .attr("data-date", (d) => d[3])
                 .attr("transform", `translate(${60},0)`)
-                .on("click", (d) => {
-                    console.log("clicked")
-                })
+                .on("mouseover", onMouseOver)
+                .on("mouseout", onMouseOut)
             
-            // adding lable to show the values
-            /*
-            graph.selectAll("text")
-                .data(data)
-                .enter()
-                .append("text")
-                .text((d) => (d[0] + "," + d[1]))
-                .attr("x", (d, i) => i * barWidth + 10)
-                .attr("y", (d, i) => h - (i * 5) - 5)
-                .attr("id", "tooltip")
-                .style("opacity", 0) */
+            function onMouseOver(e) {
+                const date = e.target.getAttribute("data-date");
+                const text = data.filter( item => item[3] === date);
+                window.d3.select("#tooltip")
+                    .text(`${text[0][0]} ${text[0][2]}
+                    $${parseFloat(text[0][1]).toLocaleString("en-US")} Billion`)
+                    .attr("data-date", date)
+                    .transition()
+                    .duration(200)
+                    .style("opacity", "1")
+            }
+
+            function onMouseOut() {
+                window.d3.select("#tooltip")
+                    .transition()
+                    .duration(200)
+                    .style("opacity", "0")
+            }
             
         }
         drawGraph();
@@ -110,6 +116,7 @@ export default function Barchart() {
         <section>
             <p id="title">United States GDP</p>
             <div className="graph-container">
+                <div id="tooltip"></div>
                 <svg className="graph" ref={svgRef}>
                     <g id="x-axis"></g>
                     <g id="y-axis"></g>

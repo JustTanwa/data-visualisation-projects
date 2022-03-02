@@ -1,8 +1,18 @@
 .graph-container {
-    background-color: greenyellow;
     display: grid;
     place-items: center;
     height: 600px;
+}
+
+#tooltip {
+    background-color: green;
+    opacity: 0;
+    display: inline-block;
+    position: absolute;
+    width: 8em;
+    height: 3.5em;
+    text-align: center;
+    padding-top: 0.5em;
 }
 
 .bar:hover {
