@@ -24,6 +24,7 @@ function Footer() {
                     style={iconStyle}
                     href="https://www.facebook.com/sharer/sharer.php?u="
                     target="_blank"
+                    rel="noreferrer"
                     role="button"
                 ><i className="fab fa-facebook-f fa-xl"></i>
                 </a>
