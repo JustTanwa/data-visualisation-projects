@@ -67,6 +67,19 @@ main {
     grid-column: 2;
 }
 
+main h2 {
+    text-align: center;
+    margin: 0;
+    font-size: 2em;
+}
+
+#title {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 1.5em;
+    margin: 1em 0 0 0;
+}
+
 footer {
     grid-column: 2;
 }

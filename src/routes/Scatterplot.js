@@ -1,6 +1,17 @@
 import { useRef, useEffect, useState } from "react";
 
 export default function Scatterplot() {
+  const pageTitleStyle = {
+    textAlign: "center",
+    margin: 0,
+    fontSize: "2em",
+  }
+  const titleStyle = {
+    textAlign: "center",
+    textDecoration: "underline",
+    fontSize: "1.5em",
+    margin: "1em 0 0 0"
+  }
   const w = 800;
   const h = 400;
   const svgRef = useRef();
@@ -108,9 +119,9 @@ export default function Scatterplot() {
           .style("top", y + "px")
           .style("left", x + "px")
           .html(
-          info.Name + ", " + info.Nationality + "<br>" +
-          "Time: " + info.Time + ", Year: " + info.Year + "<br>" +
-          info.Doping)
+            info.Name + ", " + info.Nationality + "<br>" +
+            "Time: " + info.Time + ", Year: " + info.Year + "<br>" +
+            info.Doping)
           .style("opacity", "1")
           .attr("data-year", info.Year)
       }
@@ -125,12 +136,12 @@ export default function Scatterplot() {
   }, [data, svg, tooltip])
 
   return (
-    <main style={{ padding: "1rem 0" }}>
+    <main>
       <h2 >Scatter Plot</h2>
       <section>
         <p id="title" >35 Fastest times up Alpe d'Huez</p>
         <div className="graph-container">
-          <div id="tooltip" style={{padding: "0.5em 1em"}}></div>
+          <div id="tooltip" style={{ padding: "0.5em 1em" }}></div>
           <svg className="graph" ref={svgRef}>
             <g id="x-axis"></g>
             <g id="y-axis"></g>

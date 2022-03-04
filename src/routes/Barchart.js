@@ -7,16 +7,8 @@ export default function Barchart() {
     const svgRef = useRef();
     const [data, setData] = useState([]);
 
-    const pageTitleStyle = {
-        textAlign: "center",
-        margin: 0,
-        fontSize: "2em",
-    }
     const titleStyle = {
-        textAlign: "center",
-        textDecoration: "underline",
-        fontSize: "1.5em",
-        margin: "1em 0 0 0"
+        
     }
 
 
@@ -134,10 +126,10 @@ export default function Barchart() {
     }, [data, barWidth])
 
     return (
-        <main style={{ padding: "1rem 0" }}>
-            <h2 style={pageTitleStyle}>Bar Chart</h2>
+        <main>
+            <h2 >Bar Chart</h2>
             <section>
-                <p id="title" style={titleStyle}>Gross Domestic Product of United States</p>
+                <p id="title">Gross Domestic Product of United States</p>
                 <div className="graph-container">
                     <div id="tooltip"></div>
                     <svg className="graph" ref={svgRef}>
