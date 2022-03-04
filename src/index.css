@@ -73,7 +73,6 @@ footer {
 
 .graph-container {
     display: grid;
-    position: relative;
     place-items: center;
     height: 600px;
 }
@@ -83,14 +82,13 @@ footer {
     opacity: 0;
     display: inline-block;
     position: absolute;
-    width: 8em;
+    min-width: 8em;
     height: 3.5em;
     text-align: center;
     padding-top: 0.5em;
-    top: 50px;
-    left: 500px;
     border: var(--brightOrage) 1px solid;
     border-radius: 5px;
+    pointer-events: none;
 }
 
 .bar:hover {

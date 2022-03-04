@@ -108,7 +108,6 @@ export default function Barchart() {
 
             function onMouseOver(e) {
                 const x = e.pageX;
-                const y = e.pageY;
                 const date = e.target.getAttribute("data-date");
                 const text = data.filter(item => item[3] === date);
                 window.d3.select("#tooltip")
