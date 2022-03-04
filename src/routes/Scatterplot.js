@@ -1,17 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 
 export default function Scatterplot() {
-  const pageTitleStyle = {
-    textAlign: "center",
-    margin: 0,
-    fontSize: "2em",
-  }
-  const titleStyle = {
-    textAlign: "center",
-    textDecoration: "underline",
-    fontSize: "1.5em",
-    margin: "1em 0 0 0"
-  }
   const w = 800;
   const h = 400;
   const svgRef = useRef();

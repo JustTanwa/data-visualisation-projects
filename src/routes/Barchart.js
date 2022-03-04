@@ -7,10 +7,6 @@ export default function Barchart() {
     const svgRef = useRef();
     const [data, setData] = useState([]);
 
-    const titleStyle = {
-        
-    }
-
 
     // fetching data
     useEffect(() => {
