@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 export default function Barchart() {
     const w = 800;
     const h = 400;
-    const barWidth = w/275;
+    const barWidth = w / 275;
     const svgRef = useRef();
     const [data, setData] = useState([]);
 
@@ -18,7 +18,7 @@ export default function Barchart() {
         fontSize: "1.5em",
         margin: "1em 0 0 0"
     }
-    
+
 
     // fetching data
     useEffect(() => {
@@ -42,7 +42,7 @@ export default function Barchart() {
                 else if (month === "10") {
                     quarter = "Q4";
                 }
-                
+
                 return [year, item[1], quarter, item[0]];
             });
             setData(tempData);
@@ -54,41 +54,41 @@ export default function Barchart() {
     useEffect(() => {
         const drawGraph = () => {
             const xScale = window.d3.scaleTime()
-                                .domain([window.d3.min(data, (d) => new Date(d[3])), window.d3.max(data, (d) => new Date(d[3]))])
-                                .range([0, w]);
-            
+                .domain([window.d3.min(data, (d) => new Date(d[3])), window.d3.max(data, (d) => new Date(d[3]))])
+                .range([0, w]);
+
             const yScale = window.d3.scaleLinear()
-                                .domain([0, window.d3.max(data, (d) => d[1])])
-                                .range([h, 0]);
-            
+                .domain([0, window.d3.max(data, (d) => d[1])])
+                .range([h, 0]);
+
             const gdpscale = window.d3.scaleLinear()
-                                .domain([0, window.d3.max(data, (d) => d[1])])
-                                .range([0, h]);
+                .domain([0, window.d3.max(data, (d) => d[1])])
+                .range([0, h]);
 
             const xAxis = window.d3.axisBottom()
-                            .scale(xScale);
+                .scale(xScale);
 
             const yAxis = window.d3.axisLeft()
-                            .scale(yScale);
+                .scale(yScale);
             // setting the w, and h of the svg
             const graph = window.d3.select(svgRef.current)
-                                .attr("width", w + 100)
-                                .attr("height", h + 60);
+                .attr("width", w + 100)
+                .attr("height", h + 60);
             // plotting the axises
             graph.select("#x-axis")
-                 .call(xAxis)
-                 .attr("transform", `translate(${60}, ${h})`);
+                .call(xAxis)
+                .attr("transform", `translate(${60}, ${h})`);
 
             graph.select("#y-axis")
-                 .call(yAxis)
-                 .attr("transform", `translate(${60}, 0)`);
+                .call(yAxis)
+                .attr("transform", `translate(${60}, 0)`);
 
             graph.select("#y-axis-label")
-                 .text("Gross Domestic Product (B)")
-                 .attr("transform", "translate(80, 200) rotate(-90)");
+                .text("Gross Domestic Product (B)")
+                .attr("transform", "translate(80, 200) rotate(-90)");
 
             // plotting each rect data on the graph
-            
+
             graph.selectAll("rect")
                 .data(data)
                 .enter()
@@ -98,20 +98,24 @@ export default function Barchart() {
                 .attr("width", barWidth)
                 .attr("height", (d) => gdpscale(d[1]))
                 .attr("fill", "#F7B733")
-                .attr("class","bar")
+                .attr("class", "bar")
                 .attr("data-gdp", (d) => d[1])
                 .attr("data-date", (d) => d[3])
                 .attr("index", (d, i) => i)
                 .attr("transform", `translate(${60},0)`)
                 .on("mouseover", onMouseOver)
-                .on("mouseout", onMouseOut)
-            
+                .on("mouseout", onMouseOut);
+
             function onMouseOver(e) {
+                const x = e.pageX;
+                const y = e.pageY;
                 const date = e.target.getAttribute("data-date");
-                const text = data.filter( item => item[3] === date);
+                const text = data.filter(item => item[3] === date);
                 window.d3.select("#tooltip")
+                    .style("top", 500 + "px")
+                    .style("left", (x + 30) + "px")
                     .html(`${text[0][0]} ${text[0][2]} <br> 
-                    $${parseFloat(text[0][1]).toLocaleString("en-US")} Billion` )
+                    $${parseFloat(text[0][1]).toLocaleString("en-US")} Billion`)
                     .attr("data-date", date)
                     .transition()
                     .duration(200)
@@ -125,25 +129,25 @@ export default function Barchart() {
                     .duration(200)
                     .style("opacity", "0")
             }
-            
+
         }
         drawGraph();
     }, [data, barWidth])
 
     return (
-      <main style={{ padding: "1rem 0" }}>
-        <h2 style={pageTitleStyle}>Bar Chart</h2>
-        <section>
-            <p id="title" style={titleStyle}>Gross Domestic Product of United States</p>
-            <div className="graph-container">
-                <div id="tooltip"></div>
-                <svg className="graph" ref={svgRef}>
-                    <g id="x-axis"></g>
-                    <g id="y-axis"></g>
-                    <text id="y-axis-label"></text>
-                </svg>
-            </div>
-        </section>
-      </main>
+        <main style={{ padding: "1rem 0" }}>
+            <h2 style={pageTitleStyle}>Bar Chart</h2>
+            <section>
+                <p id="title" style={titleStyle}>Gross Domestic Product of United States</p>
+                <div className="graph-container">
+                    <div id="tooltip"></div>
+                    <svg className="graph" ref={svgRef}>
+                        <g id="x-axis"></g>
+                        <g id="y-axis"></g>
+                        <text id="y-axis-label"></text>
+                    </svg>
+                </div>
+            </section>
+        </main>
     );
-  }
+}
