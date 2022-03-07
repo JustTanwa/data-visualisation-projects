@@ -73,7 +73,7 @@ main h2 {
     font-size: 2em;
 }
 
-#title {
+#title, #description {
     text-align: center;
     text-decoration: underline;
     font-size: 1.5em;
@@ -86,8 +86,7 @@ footer {
 
 .graph-container {
     display: grid;
-    place-items: center;
-    height: 600px;
+    justify-items: center;
 }
 
 #tooltip {

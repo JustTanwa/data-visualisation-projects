@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from "react";
 
 export default function Scatterplot() {
   const w = 800;
-  const h = 400;
+  const h = 350;
   const svgRef = useRef();
   const [data, setData] = useState(undefined)
 
