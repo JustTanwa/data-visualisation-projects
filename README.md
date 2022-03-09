@@ -22,3 +22,8 @@ Website will contain 5 pages which visualises data with:
 As this is created to fulfill user stories and pass the test created by FreeCodeCamp, the project is under development and will be updated to pass those tests. 
 
 For user stories and test requirements visit [freeCodeCamp - Data Visualisation Projects](https://www.freecodecamp.org/learn/data-visualization/#data-visualization-projects)
+
+### Acknowledgement 
+
+For details and example of D3 functions I used [D3 in Depth](https://www.d3indepth.com/)
+Also thanks to [GitHub D3](https://github.com/d3) 
