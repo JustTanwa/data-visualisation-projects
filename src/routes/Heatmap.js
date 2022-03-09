@@ -8,10 +8,7 @@ export default function Heatmap() {
   const [data, setData] = useState(undefined);
   const svg = window.d3.select(svgRef.current);
   const tooltip = window.d3.select("#tooltip");
-  const legend = window.d3.select("#legend")
-  const month = ["January", "February", "March", "April", "May", "June", "July",
-    "August", "September", "October", "November", "December"];
-  const colors = ["#d73027", "#fc8d59", "#fee090", "#ffffbf", "#e0f3f8", "#91bfdb", "#4575b4"];
+  const legend = window.d3.select("#legend");
 
   const url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json"
 
@@ -32,6 +29,11 @@ export default function Heatmap() {
 
   // setting the graph
   useEffect(() => {
+    const month = ["January", "February", "March", "April", "May", "June", "July",
+      "August", "September", "October", "November", "December"];
+
+    const colors = ["#d73027", "#fc8d59", "#fee090", "#ffffbf", "#e0f3f8", "#91bfdb", "#4575b4"];
+
     function drawGraph() {
       const cellWidth = (w - 200) / (2015 - 1753);
       const cellHeight = (h - 100) / 12;
@@ -93,7 +95,7 @@ export default function Heatmap() {
           .style("left", x + "px")
           .html(
             month[info[1]] + ", " + info[0] + "<br>" +
-            window.d3.format(".1f")(info[2] + avgTemp) + "&#8451;" + "<br>" +
+            window.d3.format(".1f")(info[2] + avgTemp) + "&#8451; <br>" +
             (info[2] > 0 ? "+" + info[2] : info[2]) + "&#8451;")
           .style("opacity", "0.8")
           .attr("data-year", info[0])
@@ -143,7 +145,7 @@ export default function Heatmap() {
     }
 
     data && drawGraph();
-  }, [data, svg, tooltip])
+  }, [data, svg, tooltip, avgTemp, legend])
 
   return (
     <main>
