@@ -44,6 +44,10 @@ export default function Scatterplot() {
         .call(yAxis)
         .attr("transform", `translate(${60},${50})`)
 
+      svg.select("#y-axis-label")
+        .text("Time in seconds (s)")
+        .attr("transform", `translate(10, ${h/2}) rotate(-90)`)
+
 
       svg.attr("width", w + 100)
         .attr("height", h + 100);
