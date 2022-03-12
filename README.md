@@ -25,6 +25,7 @@ For user stories and test requirements visit [freeCodeCamp - Data Visualisation 
 
 ### Acknowledgement 
 
-For details and example of D3 functions I used [D3 in Depth](https://www.d3indepth.com/)
-- Also thanks to [GitHub D3](https://github.com/d3) 
+For details and example of D3 functions I used [D3 in Depth](https://www.d3indepth.com/).
+- Also thanks to [GitHub D3](https://github.com/d3).
 - Thanks to [Visual Cinnamon](https://www.visualcinnamon.com/2016/05/smooth-color-legend-d3-svg-gradient/) for example on SVG linearGradient element, which is used for continuous legend for Choropleth map.
+- Excellent explaination on D3 treemap functions and how data is structured into tree nodes of children and parents [Hajar](https://dev.to/hajarnasr/treemaps-with-d3-js-55p7).
