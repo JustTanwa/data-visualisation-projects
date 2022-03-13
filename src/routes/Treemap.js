@@ -87,9 +87,9 @@ export default function Treemap() {
 
       treemap(root);
 
-      svg.attr("width", w)
+      svg.attr("width", w + 200)
         .attr("height", h)
-        .style("background-color", "white")
+        .style("background-color", "#fff");
 
       svg.selectAll("rect")
         .data(root.leaves())
@@ -105,6 +105,16 @@ export default function Treemap() {
         .attr("data-value", d => d.data.value)
         .on("mouseover", onMouseOver)
         .on("mouseout", onMouseOut);
+
+      svg.selectAll("text")
+        .data(root.leaves())
+        .enter()
+        .append("text")
+        .text(d => d.data.name)
+        .attr("x", d => d.x0)
+        .attr("y", d => d.y0)
+        .style("font-size", 10)
+        .attr("transform", `translate(5, 10)`);
 
       function onMouseOver(e) {
         const x = e.pageX;
@@ -126,14 +136,37 @@ export default function Treemap() {
             Category: ${info.category} <br>
             Value: ${info.value}`)
           .style("opacity", "0.8")
-          .attr("data-education", info.bachelorsOrHigher)
+          .attr("data-value", info.value)
           .style("background-color", "black")
-          .style("color", "white");
+          .style("color", "white")
+          .style("border", "none");
       }
 
       function onMouseOut(e) {
         tooltip.style("opacity", 0);
       }
+
+      // setting up legend
+      const legendItemWidth = 20;
+      const legendItem = legend.selectAll("g")
+        .data(curCategories)
+        .enter()
+        .append("g")
+        .attr("class", "legend-item-grouping")
+        .attr("transform", `translate(${w + 50}, 20)`)
+
+      legendItem.append("rect")
+        .attr("width", legendItemWidth)
+        .attr("height", legendItemWidth)
+        .attr("y", (d, i) => i * (legendItemWidth + 2))
+        .attr("fill", d => colorScale(d))
+        .attr("class", "legend-item");
+
+      legendItem.append("text")
+        .text(d => d)
+        .attr("y", (d, i) => i * (legendItemWidth + 2))
+        .attr("transform", "translate(30, 15)");
+
     }
 
     if (gameSaleData) drawTreeMap();
