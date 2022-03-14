@@ -1,8 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 
 export default function Treemap() {
-  const w = 800;
-  const h = 450;
+  const w = 960;
+  const h = 570;
   const svgRef = useRef();
   const svg = window.d3.select(svgRef.current);
 
@@ -92,7 +92,7 @@ export default function Treemap() {
 
       const treemap = window.d3.treemap()
         .size([w, h])
-        .paddingInner(1);
+        .padding(1);
 
       treemap(root);
 
@@ -222,7 +222,7 @@ export default function Treemap() {
     <main>
       <h2 id="title">Treemap - {displayInfo.title}</h2>
       <section>
-        <p id="description" style={{marginBottom: "0.25em"}}>{displayInfo.description}</p>
+        <p id="description" style={{ marginBottom: "0.25em" }}>{displayInfo.description}</p>
         <div className="button-container">
           <button className="games-info" id="games" onClick={changeDataSet}> Video Games Data</button>
           <button className="movies-info" id="movies" onClick={changeDataSet}> Movies Sale Data</button>
@@ -236,7 +236,7 @@ export default function Treemap() {
             <g id="legend"></g>
           </svg>
         </div>
-        
+
       </section>
     </main>
   );
