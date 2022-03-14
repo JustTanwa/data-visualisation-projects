@@ -89,6 +89,29 @@ footer {
     justify-items: center;
 }
 
+.button-container {
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: space-evenly;
+    width: 80%;
+    
+}
+
+.button-container  button {
+    border: none;
+    background-color: #fff;
+    width: 10em;
+    height: 3em;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.button-container  button:hover {
+    background-color: black;
+    color: white;
+    transition: background-color 1s, color 1s;
+}
+
 #tooltip {
     background-color: var(--yellow);
     opacity: 0;

@@ -9,8 +9,13 @@ export default function Treemap() {
   const [gameSaleData, setGameSaleData] = useState(null);
   const [movieSaleData, setMovieSaleData] = useState(null);
   const [kickstarterData, setkickstarterData] = useState(null);
-  const [categories, setCategories] = useState({})
-  const [curCategories, setCurCategories] = useState([])
+  const [categories, setCategories] = useState({});
+  const [curData, setCurData] = useState(null);
+  const [curCategories, setCurCategories] = useState([]);
+  const [displayInfo, setDisplayInfo] = useState({
+    title: "Video Game Sales",
+    description: "Top 100 Most Sold Video Games Grouped by Platform"
+  })
 
   const gameSalesURL = "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json";
   const movieSalesURL = "https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json";
@@ -49,42 +54,45 @@ export default function Treemap() {
 
   // setting up treemap
   useEffect(() => {
-    const tooltip = window.d3.select("#tooltip");
-    const colors = [
-      "#fcff63",
-      "#ff875f",
-      "#e4b639",
-      "#d0ff5a",
-      "#7fff5e",
-      "#36fa3e",
-      "#57ff91",
-      "#8bffea",
-      "#7397ff",
-      "#8076ff",
-      "#b179ff",
-      "#e673ff",
-      "#ff739f",
-      "#ff2f54",
-      "#ff6969",
-      "#b3b3b3",
-      "#dcd6d6",
-      "#c68753",
-    ]
+    function clearTreeMap() {
+      svg.selectAll("g").remove();
+      window.d3.selectAll(".legend-item-grouping").remove()
+    }
 
-    const colorScale = window.d3.scaleOrdinal()
-      .domain(curCategories)
-      .range(colors);
+    clearTreeMap();
 
     function drawTreeMap() {
-      console.log(curCategories);
-      const root = window.d3.hierarchy(gameSaleData)
+      const tooltip = window.d3.select("#tooltip");
+      const colors = [
+        "#fcff63",
+        "#ff875f",
+        "#e4b639",
+        "#d0ff5a",
+        "#7fff5e",
+        "#36fa3e",
+        "#57ff91",
+        "#8bffea",
+        "#7397ff",
+        "#8076ff",
+        "#b179ff",
+        "#e673ff",
+        "#ff739f",
+        "#ff2f54",
+        "#ff6969",
+        "#b3b3b3",
+        "#dcd6d6",
+        "#c68753",
+      ]
+      const colorScale = window.d3.scaleOrdinal()
+        .domain(curCategories)
+        .range(colors);
+      const root = window.d3.hierarchy(curData ? curData : gameSaleData)
         .sum(child => child.value)
         .sort((a, b) => b.value - a.value);
 
       const treemap = window.d3.treemap()
         .size([w, h])
-        .paddingInner(1)
-        .paddingOuter(2);
+        .paddingInner(1);
 
       treemap(root);
 
@@ -97,7 +105,7 @@ export default function Treemap() {
         .enter()
         .append("g")
         .attr("class", "grouping");
-        
+
       group.append("rect")
         .attr("class", "tile")
         .attr("x", d => d.x0)
@@ -118,7 +126,7 @@ export default function Treemap() {
         .data(d => d.data.name.split(/(?=[A-Z][^A-Z])/g))
         .enter()
         .append("tspan")
-        .text(gameTitle => gameTitle)
+        .text(title => title)
         .attr("x", 0)
         .attr("y", (d, i) => i * 10)
 
@@ -126,8 +134,8 @@ export default function Treemap() {
         const x = e.pageX;
         const y = e.pageY;
         const name = e.target.getAttribute("data-name");
-        const category = e.target.getAttribute("data-category")
-        const info = gameSaleData.children
+        const category = e.target.getAttribute("data-category");
+        const info = (curData ? curData.children : gameSaleData.children)
           .filter(cat => cat.name === category)[0].children
           .filter(catItem => catItem.name === name)[0];
         tooltip
@@ -177,30 +185,58 @@ export default function Treemap() {
 
     }
 
-    if (gameSaleData) {
-      console.log("drawing" + Object.keys(gameSaleData).length)
-      drawTreeMap()
-    };
+    if (gameSaleData && categories && curCategories.length > 0) drawTreeMap();
 
-  }, [gameSaleData, categories, svg, curCategories])
+  }, [gameSaleData, categories, svg, curCategories, curData]);
+
+  function changeDataSet(element) {
+    setCurCategories(categories[element.target.id]);
+    switch (element.target.id) {
+      case "games":
+        setCurData(gameSaleData);
+        setDisplayInfo({
+          title: "Video Game Sales",
+          description: "Top 100 Most Sold Video Games Grouped by Platform"
+        })
+        break;
+      case "movies":
+        setCurData(movieSaleData);
+        setDisplayInfo({
+          title: "Movie Sales",
+          description: "Top 100 Highest Grossing Movies Grouped By Genre"
+        });
+        break;
+      case "kickstart":
+        setCurData(kickstarterData);
+        setDisplayInfo({
+          title: "Kickstarter Pledges",
+          description: "Top 100 Most Pledged Kickstarter Campaigns Grouped By Category"
+        });
+        break;
+      default:
+        break;
+    }
+
+  }
   return (
     <main>
-      <h2 id="title">Treemap - Video Game Sales</h2>
+      <h2 id="title">Treemap - {displayInfo.title}</h2>
       <section>
-        <p id="description">Top 100 Most Sold Video Games Grouped by Platform</p>
+        <p id="description" style={{marginBottom: "0.25em"}}>{displayInfo.description}</p>
+        <div className="button-container">
+          <button className="games-info" id="games" onClick={changeDataSet}> Video Games Data</button>
+          <button className="movies-info" id="movies" onClick={changeDataSet}> Movies Sale Data</button>
+          <button className="kickstart-info" id="kickstart" onClick={changeDataSet}> Kickstarter Pledges Data</button>
+        </div>
         <div className="graph-container" style={layoutStyle}>
           <div id="tooltip" style={{ padding: "0em 1em" }}></div>
           <svg className="graph" ref={svgRef}>
           </svg>
-          <svg id="legend-svg" style={{justifySelf: "start"}}>
+          <svg id="legend-svg" style={{ justifySelf: "start" }}>
             <g id="legend"></g>
           </svg>
         </div>
-        <div className="button-container">
-          <button className="games-info"> Games </button>
-        <button className="movies-info" onClick={() => console.log("change the dataset") }> Movies </button>
-        <button className="kickstart-info"> Kick Starter Pledges </button>
-        </div>
+        
       </section>
     </main>
   );
