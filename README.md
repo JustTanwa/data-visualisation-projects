@@ -29,3 +29,5 @@ For details and example of D3 functions I used [D3 in Depth](https://www.d3indep
 - Also thanks to [GitHub D3](https://github.com/d3).
 - Thanks to [Visual Cinnamon](https://www.visualcinnamon.com/2016/05/smooth-color-legend-d3-svg-gradient/) for example on SVG linearGradient element, which is used for continuous legend for Choropleth map.
 - Excellent explaination on D3 treemap functions and how data is structured into tree nodes of children and parents [Hajar](https://dev.to/hajarnasr/treemaps-with-d3-js-55p7).
+- Inspiration for creating historical price chart [freeCodeCamp/Wen Tjun Chan](https://www.freecodecamp.org/news/how-to-build-historical-price-charts-with-d3-js-72214aaf6ba3/).
+- Credits to [Micah Stubb](https://bl.ocks.org/micahstubbs/e4f5c830c264d26621b80b754219ae1b) for example on mouseover droplines.
