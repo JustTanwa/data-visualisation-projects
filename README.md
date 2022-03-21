@@ -10,7 +10,7 @@ In the project directory, you can run:
 
 ### Features
 
-Website will contain 5 pages which visualises data with:
+Website will contain 5 pages which visualises data (data provided by freeCodeCamp) with:
 - Bar Chart 
 - Scatterplot Graph 
 - Heat Map
