@@ -3,6 +3,8 @@ import data from "../AAPL.csv";
 
 export default function Home() {
     const [appleData, setAppleData] = useState(null);
+    const [showSMA, setShowSMA] = useState(false);
+    const [points, setPoints] = useState(50)
 
     // fetching data and processing data
     useEffect(() => {
@@ -23,7 +25,6 @@ export default function Home() {
 
     useEffect(() => {
         function drawGraph() {
-
             const svg = window.d3.select(".graph");
             const width = 900;
             const height = 500;
@@ -66,7 +67,7 @@ export default function Home() {
             svg.append("path")
                 .datum(appleData)
                 .attr("fill", "none")
-                .attr("stroke", "navy")
+                .attr("stroke", "#1338BE")
                 .attr("stroke-width", "1.5")
                 .attr("d", window.d3.line()
                     .x(d => xScale(d.date))
@@ -114,6 +115,7 @@ export default function Home() {
                 .attr("height", height - (2 * padding))
                 .style("fill", "none")
                 .style("pointer-events", "all")
+                .style("cursor", "crosshair")
                 .attr("transform", `translate(${padding}, ${padding})`)
                 .on("mouseover", () => focus.style("display", null))
                 .on("mouseout", () => {
@@ -195,16 +197,60 @@ export default function Home() {
             function clearToolTip() {
                 window.d3.select(".tooltip").remove();
             }
+
+            // SMA
+            showSMA ? drawSMA(svg, xScale, yScale, points) : clearSMA();
+        }
+
+        function drawSMA(svg, xScale, yScale, points) {
+            const sumArr = [];
+            const sumData = appleData.map( (data, i) => {
+                if (i < points - 1) {
+                    sumArr.push(data.close)
+                } else {
+                    sumArr.shift()
+                    sumArr.push(data.close)
+                }
+                return {
+                    date: data.date,
+                    average: sumArr.reduce((number, total) => total + number, 0) / sumArr.length
+                };
+            });
+
+            svg.append("path")
+                .attr("class", "SMA")
+                .datum(sumData)
+                .attr("fill", "none")
+                .attr("stroke", "purple")
+                .attr("stroke-width", "1.5")
+                .attr("d", window.d3.line()
+                    .x(d => xScale(d.date))
+                    .y(d => yScale(d.average))
+                );
+
+        }
+
+        function clearSMA() {
+            window.d3.select("path.SMA").remove()
         }
 
         if (appleData) drawGraph();
-    }, [appleData])
+    }, [appleData, showSMA, points]);
+
+    function showMovingAverage(e) {
+        setPoints(+e.target.getAttribute("data-points"))
+        setShowSMA(!showSMA);
+    }
     return (
         <main className="landingpage">
             <h2>Things you can do with D3</h2>
             <p id="description" style={{ fontSize: "1em", textDecoration: "none" }}>Data-Driven Document (D3) offers are great deal of functionality that allow you to bring data to life.</p>
+            <div className="button-container" style={{margin: "0 auto"}}>
+                <button className="SMA-button" style={{ padding: "0.5em 1em", margin: "0.5em 0" }} data-points={10} onClick={showMovingAverage}>Toggle 10 point moving average</button>
+                <button className="SMA-button" style={{ padding: "0.5em 1em", margin: "0.5em 0" }} data-points={20} onClick={showMovingAverage}>Toggle 20 point moving average</button>
+                <button className="SMA-button" style={{ padding: "0.5em 1em", margin: "0.5em 0" }} data-points={50} onClick={showMovingAverage}>Toggle 50 point moving average</button>
+            </div>
             <div className="graph-container">
-                <button style={{ padding: "0.5em 1em", margin: "0.5em 0" }}>Show 50 point moving average</button>
                 <svg className="graph"></svg>
             </div>
         </main>

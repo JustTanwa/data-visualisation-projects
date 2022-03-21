@@ -97,7 +97,7 @@ footer {
     
 }
 
-.button-container  button {
+.button-container  button, .SMA-button {
     border: none;
     background-color: #fff;
     width: 10em;
@@ -106,7 +106,7 @@ footer {
     border-radius: 10px;
 }
 
-.button-container  button:hover {
+.button-container  button:hover, .SMV-button:hover {
     background-color: black;
     color: white;
     transition: background-color 1s, color 1s;
