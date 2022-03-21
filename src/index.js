@@ -15,11 +15,11 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<App />} >
         <Route index element={<Home/>} />
-        <Route path="barchart" element={<Barchart/>} />
-        <Route path="scatterplot" element={<Scatterplot/>} />
-        <Route path="heatmap" element={<Heatmap/>} />
-        <Route path="choroplethmap" element={<Choroplethmap/>} />
-        <Route path="treemap" element={<Treemap/>} />
+        <Route path="/barchart" element={<Barchart/>} />
+        <Route path="/scatterplot" element={<Scatterplot/>} />
+        <Route path="/heatmap" element={<Heatmap/>} />
+        <Route path="/choroplethmap" element={<Choroplethmap/>} />
+        <Route path="/treemap" element={<Treemap/>} />
       </Route>
     </Routes>
   </BrowserRouter>,
